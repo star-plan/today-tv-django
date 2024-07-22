@@ -4,6 +4,11 @@ from django.utils import timezone
 from .models import ConfigItem
 
 
+def has_key(key: str) -> bool:
+    queryset = ConfigItem.objects.filter(key=key)
+    return queryset.exists()
+
+
 def get_str(key: str) -> str:
     queryset = ConfigItem.objects.filter(key=key)
     if queryset.exists():
@@ -39,6 +44,18 @@ def set_int(key: str, value: int) -> int:
     if len(value) > 0:
         return int(value)
     return 0
+
+
+def get_bool(key: str) -> bool:
+    value = get_str(key)
+    if value == '1':
+        return True
+    return False
+
+
+def set_bool(key: str, value: bool) -> bool:
+    value = set_str(key, str('1' if value else '0'))
+    return True if value == '1' else False
 
 
 def get_json(key: str) -> dict:

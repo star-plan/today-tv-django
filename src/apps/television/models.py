@@ -18,14 +18,16 @@ class TvProgram(ModelExt):
 
 class Video(ModelExt):
     program = models.ForeignKey(
-        'TvProgram', related_name='videos',
+        'TvProgram', related_name='videos', verbose_name='电视节目',
         db_constraint=False, on_delete=models.CASCADE
     )
     name = models.CharField('视频名称', max_length=200)
     time = models.DateTimeField('时间', null=True, blank=True)
     related_link = models.URLField('相关链接', null=True, blank=True)
     origin_link = models.URLField('原始视频链接', null=True, blank=True)
-    cover = models.ImageField('视频封面', upload_to='tv/video/cover', null=True, blank=True)
+    cover = models.ImageField('视频封面', upload_to='tv/video/covers', null=True, blank=True)
+    video = models.FileField('视频文件', upload_to='tv/video/raw-videos', null=True, blank=True)
+
 
     def __str__(self):
         return self.name

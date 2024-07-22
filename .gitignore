@@ -2,6 +2,7 @@
 .assets
 .scripts
 node_modules/
+media/
 static/media
 static/lib
 static_collected

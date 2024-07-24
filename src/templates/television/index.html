@@ -1,0 +1,9 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    <h1 class="mb-4 text-3xl text-green-800">电视节目</h1>
+    {% for program in tv_programs %}
+        {% include 'television/components/tv_program_card.html' %}
+    {% endfor %}
+
+{% endblock %}

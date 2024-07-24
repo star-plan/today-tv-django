@@ -12,6 +12,8 @@
 
     {% compress css %}
         <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+        <link rel="stylesheet" href="{% static 'lib/font-awesome/css/all.min.css' %}">
+        {% block extra_css %}{% endblock %}
     {% endcompress %}
 
 </head>
@@ -20,13 +22,14 @@
 
 {% include 'components/header.html' %}
 
-<div class="container max-w-screen-xl mx-auto mt-4">
+<div class="container max-w-screen-xl mx-auto mt-16 pt-4 px-2 lg:px-0">
     {% block content %}
     {% endblock content %}
 </div>
 
 {% compress js %}
     <script src="{% static 'lib/flowbite/dist/flowbite.min.js' %}"></script>
+    {% block extra_js %}{% endblock %}
 {% endcompress %}
 
 </body>

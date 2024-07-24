@@ -1,15 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
-
-# DjangoStarter 主页
-from django_starter.contrib.guide import views
+from apps.home.views import index
 
 from config.apis import api
 
 urlpatterns = [
-    path('', views.index),
+    path('', index),
     path('api/', api.urls),
     path('demo', include('apps.demo.urls')),
+    path('home/', include('apps.home.urls')),
+    path('tv', include('apps.television.urls')),
 
     # DjangoStarter
     path('django-starter/', include('django_starter.urls')),

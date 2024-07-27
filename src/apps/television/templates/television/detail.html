@@ -3,27 +3,41 @@
 {% block title %}视频列表{% endblock %}
 
 {% block content %}
-    <div class="flex justify-center items-center h-[90vh] w-full">
-        <div class="flex flex-col items-center">
-            <div class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Today TV</span>
-                Scalable TV.
-            </div>
-            <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
-                这个节目还没视频哦
-            </p>
-            <div class="flex gap-2 my-4">
-                <a role="button" href="{% url 'index' %}"
-                        class="flex gap-2 items-center text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-xl px-5 py-2.5 text-center me-2 mb-2">
-                    <i class="fa-solid fa-person-through-window"></i>
-                    返回主页
+    名称：{{ program.name }}
+
+    {% if videos.count > 0 %}
+        <div class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            {% for video in videos %}
+                <a href="{% url 'television:video' video.id %}"
+                   class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                    <p>{{ video.name }}</p>
+                    <p>{{ video.time }}</p>
                 </a>
-                <button type="button" onclick="history.back()"
-                        class="flex gap-2 items-center text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-xl px-5 py-2.5 text-center me-2 mb-2">
-                    <i class="fa-solid fa-person-through-window"></i>
-                    取消
-                </button>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="flex justify-center items-center h-[90vh] w-full">
+            <div class="flex flex-col items-center">
+                <div class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Today TV</span>
+                    Scalable TV.
+                </div>
+                <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
+                    这个节目还没视频哦
+                </p>
+                <div class="flex gap-2 my-4">
+                    <a role="button" href="{% url 'index' %}"
+                       class="flex gap-2 items-center text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-xl px-5 py-2.5 text-center me-2 mb-2">
+                        <i class="fa-solid fa-person-through-window"></i>
+                        返回主页
+                    </a>
+                    <button type="button" onclick="history.back()"
+                            class="flex gap-2 items-center text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-xl px-5 py-2.5 text-center me-2 mb-2">
+                        <i class="fa-solid fa-person-through-window"></i>
+                        取消
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}

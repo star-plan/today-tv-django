@@ -1,0 +1,10 @@
+{% extends '_base.html' %}
+
+{% block title %}视频{% endblock %}
+
+{% block content %}
+    <video controls poster="{{ video.cover_url }}">
+        <source src="{{ video.video_link }}" type="video/mp4">
+        您的浏览器不支持Video标签。
+    </video>
+{% endblock %}

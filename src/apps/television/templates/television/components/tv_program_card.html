@@ -8,9 +8,10 @@
                 {{ program.name }}
             </h5>
         </a>
-        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            上次更新: {{ program.last_updated_at }}
-        </p>
+        <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">状态: {{ program.get_status_display }}</p>
+        <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">更新时间: {{ program.first_detected_update_time }}</p>
+        <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">上次同步: {{ program.last_synced_time }}</p>
+        <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">本地更新: {{ program.local_update_time }}</p>
         <a href="{% url 'television:detail' program.id %}"
            class="inline-flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
             观看视频

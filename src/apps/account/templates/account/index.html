@@ -1,0 +1,181 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    <section class="relative pt-40 pb-24">
+        <img src="https://pagedone.io/asset/uploads/1705473378.png" alt="cover-image"
+             class="w-full absolute top-0 left-0 z-0 h-60">
+        <div class="w-full max-w-7xl mx-auto px-6 md:px-8">
+            <div class="flex items-center justify-center sm:justify-start relative z-10 mb-5">
+                <img src="https://blog.sblt.deali.cn:9000/Api/PicLib/Random/150/150" alt="user-avatar-image"
+                     class="border-4 border-solid border-white rounded-full">
+            </div>
+            <div class="flex flex-col sm:flex-row max-sm:gap-5 items-center justify-between mb-5">
+                <div class="block">
+                    <h3 class="font-manrope font-bold text-4xl text-gray-900 mb-1">{{ request.user.username }}</h3>
+                    <p class="font-normal text-base leading-7 text-gray-500">{{ request.user.profile.phone }}</p>
+                </div>
+                <button
+                        class="rounded-full py-3.5 px-5 bg-gray-100 flex items-center group transition-all duration-500 hover:bg-indigo-100 ">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span class="px-2 font-medium text-base leading-7 text-gray-700 transition-all duration-500 group-hover:text-indigo-600">
+                        SoftwareEngineer
+                    </span>
+                </button>
+            </div>
+            <div class="flex flex-col lg:flex-row max-lg:gap-5 items-center justify-between py-0.5">
+                <div class="flex items-center gap-4">
+                    <button class="py-3.5 px-5 rounded-full bg-indigo-600 text-white font-semibold text-base leading-7 shadow-sm shadow-transparent transition-all duration-500 hover:shadow-gray-100 hover:bg-indigo-700">
+                        Edit
+                        Profile
+                    </button>
+                    <button class="py-3.5 px-5 rounded-full bg-indigo-50 text-indigo-600 font-semibold text-base leading-7 shadow-sm shadow-transparent transition-all duration-500 hover:bg-indigo-100">
+                        Settings
+                    </button>
+                </div>
+                <div class="flex flex-col md:flex-row items-center gap-6 ">
+                    <p class="flex items-center gap-2 font-medium text-lg leading-8 text-gray-400 ">
+                        Skills
+                        <i class="fa-regular fa-star"></i>
+                    </p>
+                    <ul class="flex items-center max-sm:justify-center max-sm:flex-wrap gap-2.5">
+                        <li class="py-3.5 px-7 rounded-full bg-orange-50 font-semibold text-base leading-7 text-gray-700">
+                            HTML
+                        </li>
+                        <li class="py-3.5 px-7 rounded-full bg-orange-50 font-semibold text-base leading-7 text-gray-700">
+                            CSS
+                        </li>
+                        <li class="py-3.5 px-7 rounded-full bg-orange-50 font-semibold text-base leading-7 text-gray-700">
+                            Dart
+                        </li>
+                        <li class="py-3.5 px-7 rounded-full bg-orange-50 font-semibold text-base leading-7 text-gray-700">
+                            C++
+                        </li>
+                        <li class="py-3.5 px-7 rounded-full bg-orange-50 font-semibold text-base leading-7 text-gray-700">
+                            UI Design
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-10 my-auto dark:bg-gray-900">
+        <div class="lg:w-full mx-auto flex gap-4">
+            <div class="w-full mx-auto shadow-2xl p-4 rounded-xl h-fit self-center dark:bg-gray-800/40">
+                <div class="">
+                    <h1 class="lg:text-3xl md:text-2xl sm:text-xl xs:text-xl font-serif font-extrabold mb-2 dark:text-white">
+                        Profile
+                    </h1>
+                    <h2 class="text-grey text-sm mb-4 dark:text-gray-400">Create Profile</h2>
+                    <form>
+                        <!-- Cover Image -->
+                        <div class="w-full rounded-sm bg-[url('https://images.unsplash.com/photo-1449844908441-8829872d2607?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw2fHxob21lfGVufDB8MHx8fDE3MTA0MDE1NDZ8MA&ixlib=rb-4.0.3&q=80&w=1080')] bg-cover bg-center bg-no-repeat items-center">
+                            <!-- Profile Image -->
+                            <div class="mx-auto flex justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-[url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw4fHxwcm9maWxlfGVufDB8MHx8fDE3MTEwMDM0MjN8MA&ixlib=rb-4.0.3&q=80&w=1080')] bg-cover bg-center bg-no-repeat">
+                                <div class="bg-white/90 rounded-full w-6 h-6 text-center ml-28 mt-4">
+                                    <input type="file" name="profile" id="upload_profile" hidden required>
+                                    <label for="upload_profile">
+                                        <svg data-slot="icon" class="w-6 h-5 text-blue-700" fill="none"
+                                             stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
+                                             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z">
+                                            </path>
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z">
+                                            </path>
+                                        </svg>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <input type="file" name="profile" id="upload_cover" hidden required>
+
+                                <div class="bg-white flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold">
+                                    <label for="upload_cover" class="inline-flex items-center gap-1 cursor-pointer">Cover
+
+                                        <svg data-slot="icon" class="w-6 h-5 text-blue-700" fill="none"
+                                             stroke-width="1.5"
+                                             stroke="currentColor" viewBox="0 0 24 24"
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z">
+                                            </path>
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z">
+                                            </path>
+                                        </svg>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="text-center mt-1 font-semibold dark:text-gray-300">Upload Profile and Cover
+                            Image</h2>
+                        <div class="flex lg:flex-row md:flex-col sm:flex-col xs:flex-col gap-2 justify-center w-full">
+                            <div class="w-full mb-4 mt-6">
+                                <label for="" class="mb-2 dark:text-gray-300">First Name</label>
+                                <input type="text"
+                                       class="mt-2 p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800"
+                                       placeholder="First Name">
+                            </div>
+                            <div class="w-full mb-4 lg:mt-6">
+                                <label for="" class=" dark:text-gray-300">Last Name</label>
+                                <input type="text"
+                                       class="mt-2 p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800"
+                                       placeholder="Last Name">
+                            </div>
+                        </div>
+
+                        <div class="flex lg:flex-row md:flex-col sm:flex-col xs:flex-col gap-2 justify-center w-full">
+                            <div class="w-full">
+                                <h3 class="dark:text-gray-300 mb-2">Sex</h3>
+                                <select class="w-full text-grey border-2 rounded-lg p-4 pl-2 pr-2 dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800">
+                                    <option disabled value="">Select Sex</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            <div class="w-full">
+                                <h3 class="dark:text-gray-300 mb-2">Date Of Birth</h3>
+                                <input type="date"
+                                       class="text-grey p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800">
+                            </div>
+                        </div>
+                        <div class="w-full rounded-lg bg-blue-500 mt-4 text-white text-lg font-semibold">
+                            <button type="submit" class="w-full p-4">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="about" class="relative bg-white overflow-hidden my-16">
+        <div class="max-w-7xl mx-auto">
+            <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+                <svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2"
+                     fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                    <polygon points="50,0 100,0 50,100 0,100"></polygon>
+                </svg>
+
+                <div class="pt-1"></div>
+
+                <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                    <div class="sm:text-center lg:text-left">
+                        <h2 class="my-6 text-2xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-4xl">
+                            About me
+                        </h2>
+
+                        <p>{% lorem %}</p>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+            <img class="h-56 w-full object-cover object-top sm:h-72 md:h-96 lg:w-full lg:h-full"
+                 src="https://cdn.pixabay.com/photo/2016/03/23/04/01/woman-1274056_960_720.jpg" alt="">
+        </div>
+    </div>
+{% endblock %}

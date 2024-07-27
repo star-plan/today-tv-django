@@ -1,0 +1,69 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    <!-- Section SING IN -->
+    <section>
+        <!-- Container -->
+        <div class="grid md:h-[90vh] md:grid-cols-2">
+            <!-- Component -->
+            <div class="flex flex-col items-center justify-center bg-white">
+                <!-- Wrapper -->
+                <div class="max-w-lg px-5 py-16 text-center md:px-10 md:py-24 lg:py-32">
+                    <!-- Title -->
+                    <h2 class="mb-8 text-3xl font-bold md:mb-12 md:text-5xl">创建账户</h2>
+                    <!-- Form -->
+                    <form class="mx-auto mb-4 max-w-sm pb-4" name="wf-form-password" method="post">
+                        {% csrf_token %}
+                        <div class="relative">
+                            <img alt=""
+                                 src="https://assets.website-files.com/6357722e2a5f19121d37f84d/6357722e2a5f190b7e37f878_EnvelopeSimple.svg"
+                                 class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block"/>
+                            <label class="sr-only" for="username">用户名</label>
+                            <input type="text" id="username" name="username"
+                                   class="mb-4 block h-9 w-full border border-black bg-[#f2f2f7] px-3 py-6 pl-14 text-sm text-[#333333]"
+                                   minlength="4" maxlength="256" placeholder="用户名" required/>
+                        </div>
+                        <div class="relative mb-4">
+                            <img alt=""
+                                 src="https://assets.website-files.com/6357722e2a5f19121d37f84d/6357722e2a5f19601037f879_Lock-2.svg"
+                                 class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block"/>
+                            <label class="sr-only" for="password">密码</label>
+                            <input type="password" id="password" name="password"
+                                   class="mb-4 block h-9 w-full border border-black bg-[#f2f2f7] px-3 py-6 pl-14 text-sm text-[#333333]"
+                                   minlength="4" maxlength="256" placeholder="密码 (min 8 characters)" required/>
+                        </div>
+                        <!-- Сheckbox -->
+                        <label class="mb-6 flex items-center pb-12 font-medium lg:mb-1">
+                            <input type="checkbox" name="checkbox"/>
+                            <span class="ml-4 inline-block cursor-pointer text-sm" for="checkbox">
+                                I agree with the <a href="#" class="font-bold text-[#0b0b1f]">Terms &amp; Conditions</a></span>
+                        </label>
+                        <!-- Button -->
+                        <button type="submit"
+                           class="flex items-center justify-center w-full bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]">
+                            <p class="mr-6 font-bold">创建账户</p>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                    <p class="text-sm text-[#636262]">
+                        Already have an account?
+                        <a href="{% url 'account:login' %}" class="text-sm font-bold text-black">Login now</a>
+                    </p>
+                </div>
+            </div>
+            <!-- Component -->
+            <div class="flex flex-col items-center justify-center bg-[#f2f2f7]">
+                <!-- Wrapper -->
+                <div class="max-w-lg px-5 py-16 md:px-10 md:py-24 lg:py-32">
+                    <div class="mb-6 ml-2 flex h-14 w-14 items-center justify-center bg-[#276ef1] [box-shadow:rgb(171,_196,_245)_-8px_8px]">
+                        <img src="https://assets.website-files.com/6357722e2a5f19121d37f84d/6358f5ec37c8c32b17d1c725_Vector-9.svg"
+                             alt="" class="inline-block"/>
+                    </div>
+                    <p class="mb-8 text-[#647084] md:mb-12 lg:mb-16">{% lorem %}</p>
+                    <p class="font-bold">DealiAxy</p>
+                    <p class="text-sm">Senior Webflow Developer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

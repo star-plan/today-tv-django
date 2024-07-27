@@ -1,9 +1,14 @@
 {% extends '_base.html' %}
 
+{% block title %}电视节目{% endblock %}
+
 {% block content %}
     <h1 class="mb-4 text-3xl text-green-800">电视节目</h1>
-    {% for program in tv_programs %}
-        {% include 'television/components/tv_program_card.html' %}
-    {% endfor %}
+
+    <div class="flex flex-wrap gap-2">
+        {% for program in tv_programs %}
+            {% include 'television/components/tv_program_card.html' %}
+        {% endfor %}
+    </div>
 
 {% endblock %}

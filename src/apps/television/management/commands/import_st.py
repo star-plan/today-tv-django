@@ -10,7 +10,7 @@ from apps.television.models import TvProgram, Video
 
 
 class Command(BaseCommand):
-    help = 'StudyBus: Update av library.'
+    help = 'TodayTV: Import TV Shows'
 
     def handle(self, *args, **options):
         try:

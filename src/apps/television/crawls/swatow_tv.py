@@ -185,11 +185,18 @@ def get_fragments(assign_date: date) -> List[Fragment]:
 
     fragments = [f for f in fragments_dict.values()]
 
-    with open(os.path.join(CONFIG['base_dir'], 'downloads', f'{assign_date}.json'), 'w', encoding='utf-8') as f:
-        logger.debug(f'日期 {assign_date} 片段信息写入文件')
-        json.dump([e.to_json() for e in fragments], f, indent=2, ensure_ascii=False)
-
     return fragments
+
+
+def get_updated_date():
+    """获取最新视频更新日期"""
+    html = crawl_page(1)
+    soup = BeautifulSoup(html, 'html.parser')
+    elems = soup.select('body > div.content-box.clearfix > div > ul > li')
+    for elem in elems:
+        title = elem.select_one('.text-box .tit a').text
+        d = extract_date(title)
+        return d
 
 
 def check_date_has_updated(assign_date: date):

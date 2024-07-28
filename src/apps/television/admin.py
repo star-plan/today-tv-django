@@ -26,6 +26,7 @@ class TvProgramAdmin(admin.ModelAdmin):
         status_map = {
             TvProgram.Status.UPDATED: 'success',
             TvProgram.Status.PENDING_UPDATE: 'info',
+            TvProgram.Status.SCRAPING: 'warning',
             TvProgram.Status.DOWNLOADING: 'warning',
             TvProgram.Status.FAILED: 'danger',
         }

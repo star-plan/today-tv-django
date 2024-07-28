@@ -6,6 +6,7 @@ class TvProgram(ModelExt):
     class Status(models.TextChoices):
         UPDATED = 'updated', '已更新'
         PENDING_UPDATE = 'pending_update', '待更新'
+        SCRAPING = 'scraping', '采集中'
         DOWNLOADING = 'downloading', '下载中'
         FAILED = 'failed', '下载失败'
 

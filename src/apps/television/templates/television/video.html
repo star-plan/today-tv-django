@@ -3,8 +3,11 @@
 {% block title %}视频{% endblock %}
 
 {% block content %}
-    <video controls poster="{{ video.cover_url }}">
-        <source src="{{ video.video_link }}" type="video/mp4">
-        您的浏览器不支持Video标签。
-    </video>
+    <div class="flex justify-center items-center">
+        <video controls autoplay poster="{{ video.cover_url }}"
+               class="w-90 h-auto max-w-full border border-gray-200 rounded-lg dark:border-gray-700">
+            <source src="{{ video.video_link }}" type="video/mp4">
+            Your browser does not support the video tag. / 您的浏览器不支持Video标签。
+        </video>
+    </div>
 {% endblock %}

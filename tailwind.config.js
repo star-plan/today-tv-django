@@ -7,6 +7,11 @@ module.exports = {
     theme: {
         extend: {},
     },
+    variants: {
+        extend: {
+            blur: ['hover'],
+        },
+    },
     plugins: [
         require('flowbite/plugin'),
         // require('daisyui'),

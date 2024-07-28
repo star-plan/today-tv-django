@@ -36,6 +36,8 @@ const libs = [
     {name: "chart.js", dist: "./node_modules/chart.js/dist/**/*.*"},
     {name: "flowbite", dist: "./node_modules/flowbite/dist/**/*.*"},
     {name: "jquery", dist: "./node_modules/jquery/dist/**/*.*"},
+    {name: "nplayer", dist: "./node_modules/nplayer/dist/**/*.*"},
+    {name: "plyr", dist: "./node_modules/plyr/dist/**/*.*"},
     {name: "bootstrap", dist: "./node_modules/bootstrap/dist/**/*.*"},
     {name: "bootswatch", dist: "./node_modules/bootswatch/dist/**/*.*"},
     {name: 'vue', dist: './node_modules/vue/dist/**/*.*'},

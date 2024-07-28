@@ -14,6 +14,8 @@
     "chart.js": "^3.8.0",
     "flowbite": "^2.4.1",
     "jquery": "^3.6.0",
+    "nplayer": "^1.0.15",
+    "plyr": "^3.7.8",
     "vue": "^2.6.14"
   },
   "devDependencies": {

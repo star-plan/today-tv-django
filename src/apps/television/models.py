@@ -56,6 +56,7 @@ class Video(ModelExt):
     cover = models.ImageField('视频封面', upload_to='tv/video/covers', null=True, blank=True)
     video_link = models.URLField('视频链接', null=True, blank=True)
     video = models.FileField('视频文件', upload_to='tv/video/raw-videos', null=True, blank=True)
+    duration = models.DurationField('视频时长', null=True, blank=True)
 
     def __str__(self):
         return self.name

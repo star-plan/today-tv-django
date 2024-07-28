@@ -20,6 +20,8 @@ class Command(BaseCommand):
 
             print(f'styles: {self.style}')
 
+            existed_video_names = Video.objects.values_list('name', flat=True).distinct()
+
             video_list = []
 
             base_path = r'E:\Code\python\crawl\all_crawl\temp_crawls\crawl_swatow_tv\downloads'
@@ -30,6 +32,10 @@ class Command(BaseCommand):
                     data = json.load(f)
 
                 for item in data:
+                    if item['title'] in existed_video_names:
+                        self.stdout.write(f'video {item["title"]} already exists')
+                        continue
+
                     v = Video(
                         program=st_program,
                         name=item['title'],

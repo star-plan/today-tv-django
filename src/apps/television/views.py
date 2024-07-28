@@ -33,9 +33,16 @@ def detail(request, pk):
 
 
 def video(request, pk):
-    item = get_object_or_404(Video, pk=pk)
+    item = get_object_or_404(Video.objects.select_related('program'), pk=pk)
+    # 获取与当前视频相同日期的其他视频
+    same_date_videos = Video.objects.filter(
+        program=item.program,
+        time__date=item.time.date()
+    )
+
     ctx = {
         'video': item,
+        'same_date_videos': same_date_videos,
     }
 
     return render(request, 'television/video.html', ctx)

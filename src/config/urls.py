@@ -8,9 +8,9 @@ urlpatterns = [
     path('', index, name='index'),
     path('api/', api.urls),
     path('accounts/', include('apps.account.urls')),
-    path('demo', include('apps.demo.urls')),
+    path('demo/', include('apps.demo.urls')),
     path('home/', include('apps.home.urls')),
-    path('tv', include('apps.television.urls')),
+    path('tv/', include('apps.television.urls')),
 
     # DjangoStarter
     path('django-starter/', include('django_starter.urls')),

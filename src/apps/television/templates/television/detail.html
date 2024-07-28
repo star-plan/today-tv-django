@@ -9,7 +9,7 @@
         {% for date, videos in grouped_videos.items %}
             <h1 class="px-4 lg:px-0 my-4 text-2xl font-normal leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
                 <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">{{ date }}</span>
-                <span class="text-md font-thin">Swatow Today TV</span>
+                <span class="text-md font-thin">{{ videos|length }}个视频</span>
             </h1>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4 py-4 lg:px-0">

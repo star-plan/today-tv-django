@@ -3,11 +3,101 @@
 {% block title %}视频列表{% endblock %}
 
 {% block content %}
-    名称：{{ program.name }}
+    {# Breadcrumb #}
+    <nav class="flex px-4 lg:px-0" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li class="inline-flex items-center">
+                <a href="{% url 'index' %}"
+                   class="inline-flex gap-1 items-center text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                    <i class="fa-solid fa-house-chimney"></i>
+                    主页
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <a href="{% url 'television:index' %}"
+                       class="ms-1 text-sm font-medium text-gray-600 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
+                        电视
+                    </a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <span class="ms-1 text-sm font-medium text-amber-700 md:ms-2 dark:text-gray-400">
+                        {{ program.name }}
+                    </span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-4 my-4 px-4 lg:px-0">
+        <div class="hidden lg:col-span-3 xl:col-span-2 lg:flex justify-center items-center">
+            <img class="col-span-2 h-auto max-w-lg rounded-lg" src="{{ program.logo.url }}"
+                 alt="image description">
+        </div>
+
+        <div class="md:col-span-2 lg:col-span-3 xl:col-span-2 flex flex-col justify-between p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div>
+                <i class="fa-solid fa-video text-4xl text-gray-500 dark:text-gray-400 mb-4"></i>
+                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    {{ program.name }}
+                </h5>
+                <p class="font-normal text-gray-500 dark:text-gray-400">
+                    视频数量：{{ videos|length }}
+                </p>
+            </div>
+            <a href="{{ program.source_url }}"
+               class="inline-flex gap-2 font-medium items-center text-blue-600 hover:underline">
+                节目数据来源网址
+                <i class="fa-solid fa-arrow-up-right-from-square rtl:rotate-[270deg]"></i>
+            </a>
+        </div>
+
+        <div class="md:col-span-2 lg:col-span-6 xl:col-span-8 grid gap-4 lg:gap-8 w-full md:grid-cols-2">
+            <div class="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-200">
+                        <span>状态</span>
+                    </div>
+                    <div class="text-3xl">{{ program.get_status_display }}</div>
+                </div>
+            </div>
+            <div class="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-200">
+                        <span>更新时间</span>
+                    </div>
+                    <div class="text-3xl">{{ program.first_detected_update_time }}</div>
+                </div>
+            </div>
+
+            <div class="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-200">
+                        <span>上次同步</span>
+                    </div>
+                    <div class="text-3xl">{{ program.last_synced_time }}</div>
+                </div>
+            </div>
+
+            <div class="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-200">
+                        <span>本地更新</span>
+                    </div>
+                    <div class="text-3xl">{{ program.local_update_time }}</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     {% if grouped_videos|length > 0 %}
         {% for date, videos in grouped_videos.items %}
-            <h1 class="px-4 lg:px-0 my-4 text-2xl font-normal leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
+            <h1 class="px-4 lg:px-0 my-4 text-xl md:text-2xl lg:text-3xl font-normal leading-none tracking-tight text-gray-900 dark:text-white">
                 <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">{{ date }}</span>
                 <span class="text-md font-thin">{{ videos|length }}个视频</span>
             </h1>

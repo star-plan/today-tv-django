@@ -26,6 +26,7 @@ def detail(request, pk):
 
     ctx = {
         'program': program,
+        'videos': videos,
         'grouped_videos': dict(grouped_videos),
     }
 

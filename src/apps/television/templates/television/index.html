@@ -3,7 +3,27 @@
 {% block title %}电视节目{% endblock %}
 
 {% block content %}
-    <h1 class="mb-4 text-3xl text-green-800">电视节目</h1>
+    <h1 class="text-3xl text-green-800">电视节目</h1>
+    {# Breadcrumb #}
+    <nav class="flex py-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li class="inline-flex items-center">
+                <a href="{% url 'index' %}"
+                   class="inline-flex gap-1 items-center text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                    <i class="fa-solid fa-house-chimney"></i>
+                    主页
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <span class="ms-1 text-sm font-medium text-amber-700 md:ms-2 dark:text-gray-400">
+                        电视
+                    </span>
+                </div>
+            </li>
+        </ol>
+    </nav>
 
     <div class="flex flex-wrap gap-2">
         {% for program in tv_programs %}

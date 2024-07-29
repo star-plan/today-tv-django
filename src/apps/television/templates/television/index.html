@@ -25,10 +25,13 @@
         </ol>
     </nav>
 
-    <div class="flex flex-wrap gap-2">
-        {% for program in tv_programs %}
-            {% include 'television/components/tv_program_card.html' %}
-        {% endfor %}
-    </div>
-
+    {% if tv_programs|length > 0 %}
+        <div class="flex flex-wrap gap-2">
+            {% for program in tv_programs %}
+                {% include 'television/components/tv_program_card.html' %}
+            {% endfor %}
+        </div>
+    {% else %}
+        {% include 'television/components/empty_view.html' with title='还没节目啊！事已至此，先吃饭吧？' %}
+    {% endif %}
 {% endblock %}

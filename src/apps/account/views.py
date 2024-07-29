@@ -6,11 +6,28 @@ from django.db.models import QuerySet
 from django.shortcuts import render, redirect, reverse
 
 from contrib import ids_lite
+from .forms import UserProfileForm
 
 
 @login_required()
 def index(request):
     return render(request, 'account/index.html')
+
+
+@login_required()
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            user_profile = form.save()
+            messages.info(request, f'Your profile has been updated!')
+    else:
+        form = UserProfileForm(instance=request.user.profile)
+
+    ctx = {
+        'form': form
+    }
+    return render(request, 'account/profile.html', ctx)
 
 
 def login_view(request):

@@ -10,7 +10,7 @@ src/static/CACHE
 src/static/css/tailwind.css
 test/
 log/
-db.sqlite3
+*.sqlite3
 yarn.lock
 
 ### VisualStudioCode template

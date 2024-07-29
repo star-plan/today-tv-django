@@ -4,6 +4,7 @@ import os
 import time
 import json
 from datetime import datetime
+from math import copysign
 
 from django.core.management.base import BaseCommand, CommandError
 from apps.television.models import TvProgram, Video
@@ -26,7 +27,7 @@ class Command(BaseCommand):
             #     hook=task_finish,
             # )
             task_id = async_task(
-                swatow_tv.get_updated_date(),
+                swatow_tv.get_updated_date,
                 task_name='获取最新视频更新日期',
                 hook=task_finish,
             )

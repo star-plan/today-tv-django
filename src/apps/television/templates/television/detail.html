@@ -35,8 +35,10 @@
 
     <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-4 my-4 px-4 lg:px-0">
         <div class="hidden lg:col-span-3 xl:col-span-2 lg:flex justify-center items-center">
-            <img class="col-span-2 h-auto max-w-lg rounded-lg" src="{{ program.logo.url }}"
-                 alt="image description">
+            <div class="col-span-2">
+                <img class="w-64 rounded-lg" src="{{ program.logo.url }}"
+                 alt="{{ program.name }}">
+            </div>
         </div>
 
         <div class="md:col-span-2 lg:col-span-3 xl:col-span-2 flex flex-col justify-between p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

@@ -22,9 +22,13 @@ def get_updated_date():
     p.first_detected_update_time = d
     p.status = TvProgram.Status.UPDATED
     p.save()
+    return d
 
 
 def get_videos(assign_date: date):
+    local_videos = Video.objects.filter(
+        time__date=assign_date,
+    )
     fragments = spider.get_fragments(assign_date)
 
     for fragment in fragments:

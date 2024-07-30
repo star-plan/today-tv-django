@@ -54,3 +54,5 @@ def get_videos(assign_date: date):
 
     logger.info(f'inserting {len(videos_to_insert)} videos')
     Video.objects.bulk_create(videos_to_insert)
+
+    return videos_to_insert

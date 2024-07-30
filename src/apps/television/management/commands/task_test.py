@@ -3,12 +3,12 @@
 import os
 import time
 import json
-from datetime import datetime
+from datetime import datetime, date
 from math import copysign
 
 from django.core.management.base import BaseCommand, CommandError
 from apps.television.models import TvProgram, Video
-from django_q.tasks import async_task, Task
+from django_q.tasks import async_task, Task, AsyncTask
 from apps.television.tasks import swatow_tv
 
 
@@ -26,9 +26,15 @@ class Command(BaseCommand):
             #     task_name='初始化配置',
             #     hook=task_finish,
             # )
+            # task_id = async_task(
+            #     swatow_tv.get_updated_date,
+            #     task_name='获取最新视频更新日期',
+            #     hook=task_finish,
+            # )
             task_id = async_task(
-                swatow_tv.get_updated_date,
-                task_name='获取最新视频更新日期',
+                swatow_tv.get_videos,
+                date(2024, 7, 29),
+                task_name='获取指定日期的视频',
                 hook=task_finish,
             )
             self.stdout.write(f'task_id: {task_id}')

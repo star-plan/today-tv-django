@@ -40,7 +40,7 @@ default_headers = {
 }
 
 session = Session()
-session.headers.update(djs_cfg.get_json('headers'))
+session.headers.update(default_headers)
 
 if CONFIG['proxy']:
     session.proxies.update({

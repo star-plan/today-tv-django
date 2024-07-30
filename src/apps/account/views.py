@@ -25,9 +25,24 @@ def profile(request):
         form = UserProfileForm(instance=request.user.profile)
 
     ctx = {
-        'form': form
+        'form': form,
     }
     return render(request, 'account/profile.html', ctx)
+
+
+@login_required()
+def charge(request):
+    return render(request, 'account/charge.html')
+
+
+@login_required()
+def dashboard(request):
+    return render(request, 'account/dashboard.html')
+
+
+@login_required()
+def settings(request):
+    return render(request, 'account/settings.html')
 
 
 def login_view(request):

@@ -303,6 +303,35 @@ files = [
 ]
 
 [[package]]
+name = "django-picklefield"
+version = "3.2"
+requires_python = ">=3"
+summary = "Pickled object field for Django"
+groups = ["default"]
+dependencies = [
+    "Django>=3.2",
+]
+files = [
+    {file = "django-picklefield-3.2.tar.gz", hash = "sha256:aa463f5d79d497dbe789f14b45180f00a51d0d670067d0729f352a3941cdfa4d"},
+    {file = "django_picklefield-3.2-py3-none-any.whl", hash = "sha256:e9a73539d110f69825d9320db18bcb82e5189ff48dbed41821c026a20497764c"},
+]
+
+[[package]]
+name = "django-q2"
+version = "1.6.2"
+requires_python = ">=3.8,<4"
+summary = "A multiprocessing distributed task queue for Django"
+groups = ["default"]
+dependencies = [
+    "django-picklefield<4.0,>=3.1",
+    "django<6,>=3.2",
+]
+files = [
+    {file = "django_q2-1.6.2-py3-none-any.whl", hash = "sha256:c2d75552c80b83ca0d8c0b0db7db4f17e9f43ee131a46d0ddd514c5f5fc603cb"},
+    {file = "django_q2-1.6.2.tar.gz", hash = "sha256:cd83c16b5791cd99f83a8d106d2447305d73c6c8ed8ec22c7cb954fe0e814284"},
+]
+
+[[package]]
 name = "django-ranged-response"
 version = "0.2.0"
 summary = "Modified Django FileResponse that adds Content-Range headers."

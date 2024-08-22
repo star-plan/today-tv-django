@@ -47,7 +47,6 @@ INSTALLED_APPS: Tuple[str, ...] = (
     'captcha',
     'corsheaders',
     'compressor',
-    'django_q',
 
     # 我们自己的应用
     'apps.account',

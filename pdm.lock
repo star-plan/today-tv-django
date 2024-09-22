@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.2"
-content_hash = "sha256:255ca313ab00c395cf02a5deb6c69133afaa3f8ef5d9d9131b2ac1d92cc024f0"
+content_hash = "sha256:870eed26ca21c942c987475251bafc5b98f7621b1099165345df420b5b08b99a"
 
 [[package]]
 name = "amqp"
@@ -343,6 +343,20 @@ dependencies = [
 files = [
     {file = "django-appconf-1.0.6.tar.gz", hash = "sha256:cfe87ea827c4ee04b9a70fab90b86d704cb02f2981f89da8423cb0fabf88efbf"},
     {file = "django_appconf-1.0.6-py3-none-any.whl", hash = "sha256:c3ae442fba1ff7ec830412c5184b17169a7a1e71cf0864a4c3f93cf4c98a1993"},
+]
+
+[[package]]
+name = "django-celery-results"
+version = "2.5.1"
+summary = "Celery result backends for Django."
+groups = ["default"]
+dependencies = [
+    "Django>=3.2.18",
+    "celery<6.0,>=5.2.7",
+]
+files = [
+    {file = "django_celery_results-2.5.1-py3-none-any.whl", hash = "sha256:0da4cd5ecc049333e4524a23fcfc3460dfae91aa0a60f1fae4b6b2889c254e01"},
+    {file = "django_celery_results-2.5.1.tar.gz", hash = "sha256:3ecb7147f773f34d0381bac6246337ce4cf88a2ea7b82774ed48e518b67bb8fd"},
 ]
 
 [[package]]

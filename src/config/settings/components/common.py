@@ -47,6 +47,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     'captcha',
     'corsheaders',
     'compressor',
+    'django_celery_results',
 
     # 我们自己的应用
     'apps.account',

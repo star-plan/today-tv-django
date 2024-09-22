@@ -6,7 +6,7 @@
     {% include 'account/components/profile_header.html' %}
 
     {# Breadcrumb #}
-    <nav class="flex py-4 px-4 lg:px-0" aria-label="Breadcrumb">
+    <nav class="flex py-4 px-4 lg:px-0" aria-label="Breadcrumb" id="profile-breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
             <li class="inline-flex items-center">
                 <a href="{% url 'index' %}"
@@ -47,7 +47,7 @@
                         个人资料
                     </button>
                 {% else %}
-                    <a href="{{ profile_url }}"
+                    <a href="{{ profile_url }}#profile-breadcrumb"
                        class="inline-flex gap-2 items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
                         <i class="fa-solid fa-circle-user text-gray-500 dark:text-gray-400 text-2xl"></i>
                         个人资料
@@ -64,7 +64,7 @@
                         控制台
                     </button>
                 {% else %}
-                    <a href="{{ dashboard_url }}"
+                    <a href="{{ dashboard_url }}#profile-breadcrumb"
                        class="inline-flex gap-2 items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
                         <i class="fa-solid fa-grip text-gray-500 dark:text-gray-400 text-2xl"></i>
                         控制台
@@ -81,7 +81,7 @@
                         设置
                     </button>
                 {% else %}
-                    <a href="{{ settings_url }}"
+                    <a href="{{ settings_url }}#profile-breadcrumb"
                        class="inline-flex gap-2 items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
                         <i class="fa-solid fa-gear text-gray-500 dark:text-gray-400 text-2xl"></i>
                         设置
@@ -98,7 +98,7 @@
                         充电
                     </button>
                 {% else %}
-                    <a href="{{ charge_url }}"
+                    <a href="{{ charge_url }}#profile-breadcrumb"
                        class="inline-flex gap-2 items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
                         <i class="fa-solid fa-bolt text-gray-500 dark:text-gray-400 text-2xl"></i>
                         充电

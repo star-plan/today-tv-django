@@ -10,7 +10,7 @@ from math import copysign
 from django.core.management.base import BaseCommand, CommandError
 from apps.television.models import TvProgram, Video
 from django_q.tasks import async_task, Task, AsyncTask
-from apps.television.tasks import swatow_tv
+from apps.television.tasks_bak import swatow_tv
 
 
 def task_test():

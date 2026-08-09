@@ -9,13 +9,37 @@ services:
     build: .
     environment:
       - ENVIRONMENT=docker
-      - URL_PREFIX=django_starter
       - DEBUG=true
-    command: python3 manage.py runserver 0.0.0.0:8000
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    # 首次和版本升级时自动应用迁移，确保网页服务启动后数据模型已可用。
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
 #    command: uwsgi uwsgi.ini
     volumes:
       - .:/code
     ports:
       - "8000:8000"
+    depends_on:
+      - redis
+  worker:
+    build: .
+    command: celery -A config worker -l INFO
+    environment:
+      - ENVIRONMENT=docker
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    volumes:
+      - .:/code
+    depends_on:
+      - redis
+  beat:
+    build: .
+    command: celery -A config beat -l INFO
+    environment:
+      - ENVIRONMENT=docker
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    volumes:
+      - .:/code
     depends_on:
       - redis

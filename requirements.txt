@@ -1,0 +1,28 @@
+# Docker 与不使用 PDM 的部署环境共用的运行时依赖清单。
+# 与现有数据模型兼容的 Django 主版本范围，不能让部署时自动升级到 Django 6。
+django[argon2]>=5.0.6,<5.1
+# 固定到与既有账号 API 兼容的主版本。
+django-ninja>=1.1.0,<1.2
+django-simpleui>=2024.4.1
+django-multi-captcha-admin>=2.0.0
+django-simple-captcha>=0.6.0
+django-cors-headers>=4.3.0
+django-ratelimit>=4.1.0
+orjson>=3.10.0
+pyjwt>=2.8.0
+wechatpy>=1.8.18
+django-redis>=5.4.0
+pycryptodome>=3.20.0
+tblib>=3.0.0
+jinja2>=3.1.4
+faker>=25.5.1
+django-split-settings>=1.3.1
+django-compressor>=4.5
+loguru>=0.7.2
+bs4>=0.0.2
+brotli>=1.1.0
+croniter>=3.0.3
+celery>=5.4.0
+django-celery-results>=2.5.1
+requests>=2.32.3
+redis>=5.0.8

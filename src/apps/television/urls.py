@@ -5,6 +5,6 @@ app_name = 'television'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<int:pk>/', views.detail, name='detail'),
-    path('<int:pk>/video', views.video, name='video'),
+    path('program/<int:pk>/', views.detail, name='detail'),
+    path('video/<int:pk>/', views.video, name='video'),
 ]

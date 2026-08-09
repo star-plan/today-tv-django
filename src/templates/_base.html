@@ -1,28 +1,28 @@
-{% load compress %}
 {% load static %}
 
-<html lang="en">
+<!doctype html>
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {# 内嵌站点图标，避免开发环境对不存在 favicon.ico 发起 404 请求。 #}
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23071a2c'/%3E%3Cpath d='M15 17h34v25H15z' fill='none' stroke='%234fe0c1' stroke-width='5'/%3E%3Cpath d='M25 25l16 8-16 8z' fill='%23f5b760'/%3E%3C/svg%3E">
     <title>
         {% block title %}{% endblock %} - Today TV
     </title>
 
-    {% compress css %}
-        <link rel="stylesheet" href="{% static 'lib/font-awesome/css/all.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
-        {% block extra_css %}{% endblock %}
-    {% endcompress %}
+    {# 产品页不依赖构建期 Tailwind 文件，开箱即可在开发与部署环境中正常呈现。 #}
+    <link rel="stylesheet" href="{% static 'css/today-tv.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
 
-<body>
+<body class="today-tv-body">
 
 {% include 'components/header.html' %}
 
-<div class="container mx-auto mt-4 mb-12" id="vue-app">
+<main class="page-shell" id="main-content">
     {% block alert %}
         {% if messages %}
             {% for message in messages %}
@@ -34,16 +34,12 @@
     {% endblock %}
     {% block content %}
     {% endblock content %}
-</div>
+</main>
 
 {% include 'components/footer.html' %}
 
-{% compress js %}
-    <script src="{% static 'lib/vue/dist/vue.min.js' %}"></script>
-    <script src="{% static 'lib/flowbite/dist/flowbite.min.js' %}"></script>
-    {% block script %}{% endblock %}
-    {% block extra_js %}{% endblock %}
-{% endcompress %}
+{% block script %}{% endblock %}
+{% block extra_js %}{% endblock %}
 </body>
 
 </html>

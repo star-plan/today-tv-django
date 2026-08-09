@@ -1,37 +1,43 @@
 {% extends '_base.html' %}
 
-{% block title %}电视节目{% endblock %}
+{% block title %}节目归档{% endblock %}
 
 {% block content %}
-    <h1 class="text-3xl text-green-800">电视节目</h1>
-    {# Breadcrumb #}
-    <nav class="flex py-4 px-4 lg:px-0" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-            <li class="inline-flex items-center">
-                <a href="{% url 'index' %}"
-                   class="inline-flex gap-1 items-center text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                    <i class="fa-solid fa-house-chimney"></i>
-                    主页
-                </a>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <i class="fa-solid fa-chevron-right"></i>
-                    <span class="ms-1 text-sm font-medium text-amber-700 md:ms-2 dark:text-gray-400">
-                        电视
-                    </span>
-                </div>
-            </li>
-        </ol>
-    </nav>
+    <section class="archive-header">
+        <div>
+            <p class="eyebrow">PROGRAM ARCHIVE</p>
+            <h1>节目归档</h1>
+            <p>按播出日期回看《今日视线》的每一个片段。</p>
+        </div>
+        {% if program %}
+            <a class="source-link" href="{{ program.source_url }}" target="_blank" rel="noopener">查看节目来源 <span aria-hidden="true">↗</span></a>
+        {% endif %}
+    </section>
 
-    {% if tv_programs|length > 0 %}
-        <div class="flex flex-wrap gap-2">
-            {% for program in tv_programs %}
-                {% include 'television/components/tv_program_card.html' %}
+    {% if available_dates %}
+        <nav class="date-rail" aria-label="按日期筛选节目">
+            <a href="{% url 'television:index' %}" {% if not selected_date %}aria-current="page"{% endif %}>全部</a>
+            {% for item in available_dates %}
+                {% with item_value=item|date:'Y-m-d' %}
+                    <a href="?date={{ item_value }}" {% if selected_date == item_value %}aria-current="page"{% endif %}>{{ item|date:'m月d日' }}</a>
+                {% endwith %}
+            {% endfor %}
+        </nav>
+    {% endif %}
+
+    {% if videos %}
+        <div class="archive-count"><span></span>已显示 {{ videos|length }} 条节目{% if selected_date %} · {{ selected_date }}{% endif %}</div>
+        <div class="episode-grid archive-grid">
+            {% for video in videos %}
+                {% include 'television/components/episode_card.html' with video=video %}
             {% endfor %}
         </div>
     {% else %}
-        {% include 'television/components/empty_view.html' with title='还没节目啊！事已至此，先吃饭吧？' %}
+        <div class="empty-state">
+            <p class="empty-kicker">NO PROGRAM FOUND</p>
+            <h2>这个日期还没有节目。</h2>
+            <p>换一个日期，或稍后等待节目自动同步。</p>
+            <a class="button button-primary" href="{% url 'television:index' %}">查看全部归档</a>
+        </div>
     {% endif %}
 {% endblock %}

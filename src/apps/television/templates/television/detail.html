@@ -1,131 +1,28 @@
 {% extends '_base.html' %}
 
-{% block title %}视频列表{% endblock %}
+{% block title %}{{ program.name }}{% endblock %}
 
 {% block content %}
-    {# Breadcrumb #}
-    <nav class="flex px-4 lg:px-0" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-            <li class="inline-flex items-center">
-                <a href="{% url 'index' %}"
-                   class="inline-flex gap-1 items-center text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                    <i class="fa-solid fa-house-chimney"></i>
-                    主页
-                </a>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <i class="fa-solid fa-chevron-right"></i>
-                    <a href="{% url 'television:index' %}"
-                       class="ms-1 text-sm font-medium text-gray-600 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
-                        电视
-                    </a>
-                </div>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <i class="fa-solid fa-chevron-right"></i>
-                    <span class="ms-1 text-sm font-medium text-amber-700 md:ms-2 dark:text-gray-400">
-                        {{ program.name }}
-                    </span>
-                </div>
-            </li>
-        </ol>
-    </nav>
-
-    <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-4 my-4 px-4 lg:px-0">
-        <div class="hidden lg:col-span-3 xl:col-span-2 lg:flex justify-center items-center">
-            <div class="col-span-2">
-                <img class="w-64 rounded-lg" src="{{ program.logo.url }}"
-                 alt="{{ program.name }}">
-            </div>
+    <section class="program-header">
+        <div class="program-symbol" aria-hidden="true">TV</div>
+        <div>
+            <p class="eyebrow">PROGRAM PAGE</p>
+            <h1>{{ program.name }}</h1>
+            <p>同步状态：{{ program.get_status_display }}{% if program.last_synced_time %} · 最近同步 {{ program.last_synced_time|date:'Y-m-d H:i' }}{% endif %}</p>
         </div>
+        {% if program.source_url %}<a class="source-link" href="{{ program.source_url }}" target="_blank" rel="noopener">节目来源 ↗</a>{% endif %}
+    </section>
 
-        <div class="md:col-span-2 lg:col-span-3 xl:col-span-2 flex flex-col justify-between p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <div>
-                <i class="fa-solid fa-video text-4xl text-gray-500 dark:text-gray-400 mb-4"></i>
-                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                    {{ program.name }}
-                </h5>
-                <p class="font-normal text-gray-500 dark:text-gray-400">
-                    视频数量：{{ videos|length }}
-                </p>
-            </div>
-            <a href="{{ program.source_url }}"
-               class="inline-flex gap-2 font-medium items-center text-blue-600 hover:underline">
-                节目数据来源网址
-                <i class="fa-solid fa-arrow-up-right-from-square rtl:rotate-[270deg]"></i>
-            </a>
-        </div>
-
-        <div class="md:col-span-2 lg:col-span-6 xl:col-span-8 grid gap-4 lg:gap-8 w-full md:grid-cols-2">
-            <div class="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
-                <div class="space-y-2">
-                    <div class="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-200">
-                        <span>状态</span>
-                    </div>
-                    <div class="text-3xl">{{ program.get_status_display }}</div>
+    {% if grouped_videos %}
+        {% for episode_date, items in grouped_videos.items %}
+            <section class="day-group">
+                <div class="day-heading"><h2>{{ episode_date }}</h2><span>{{ items|length }} 条</span></div>
+                <div class="episode-grid">
+                    {% for video in items %}{% include 'television/components/episode_card.html' with video=video %}{% endfor %}
                 </div>
-            </div>
-            <div class="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
-                <div class="space-y-2">
-                    <div class="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-200">
-                        <span>更新时间</span>
-                    </div>
-                    <div class="text-3xl">{{ program.first_detected_update_time }}</div>
-                </div>
-            </div>
-
-            <div class="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
-                <div class="space-y-2">
-                    <div class="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-200">
-                        <span>上次同步</span>
-                    </div>
-                    <div class="text-3xl">{{ program.last_synced_time }}</div>
-                </div>
-            </div>
-
-            <div class="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
-                <div class="space-y-2">
-                    <div class="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-200">
-                        <span>本地更新</span>
-                    </div>
-                    <div class="text-3xl">{{ program.local_update_time }}</div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    {% if grouped_videos|length > 0 %}
-        {% for date, videos in grouped_videos.items %}
-            <h1 class="px-4 lg:px-0 my-4 text-xl md:text-2xl lg:text-3xl font-normal leading-none tracking-tight text-gray-900 dark:text-white">
-                <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">{{ date }}</span>
-                <span class="text-md font-thin">{{ videos|length }}个视频</span>
-            </h1>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4 py-4 lg:px-0">
-                {% for video in videos %}
-                    <a href="{% url 'television:video' video.id %}"
-                       class="group cursor-pointer relative">
-                        <img src="{{ video.cover_link }}"
-                             alt="{{ video.name }}"
-                             class="w-full h-48 object-cover rounded-lg
-                             transition-transform transform scale-100 group-hover:scale-105 group-hover:blur-sm"
-                        />
-                        <div class="absolute inset-0 flex flex-col items-center justify-center p-4
-                        rounded-lg transform scale-100 group-hover:scale-105
-                        opacity-0 group-hover:opacity-60 transition-opacity group-hover:bg-gray-800 text-gray-800 group-hover:text-white">
-                            <div class="text-sm my-4">{{ video.name }}</div>
-                            <button class="px-3 py-1 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-600 hover:text-white transition-colors">
-                                观看
-                            </button>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
+            </section>
         {% endfor %}
     {% else %}
-        {% include 'television/components/empty_view.html' with title='这个节目还没视频哦' %}
+        <div class="empty-state"><p class="empty-kicker">WAITING FOR SYNC</p><h2>节目还没有内容。</h2><p>下一次同步会自动把已发布节目加入这里。</p></div>
     {% endif %}
 {% endblock %}

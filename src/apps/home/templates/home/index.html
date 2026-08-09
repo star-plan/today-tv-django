@@ -1,80 +1,77 @@
 {% extends '_base.html' %}
 
-{% block title %}
-	主页
-{% endblock %}
+{% block title %}今日视线{% endblock %}
 
 {% block content %}
-    <section class="container p-6 mx-auto space-y-3 dark:bg-gray-800 dark:text-white">
+    <section class="broadcast-hero" aria-labelledby="hero-title">
+        <div class="hero-signal" aria-hidden="true">
+            <span>ON AIR</span>
+            <i></i><i></i><i></i>
+        </div>
+        <div class="hero-copy">
+            <p class="eyebrow">SHANTOU · LOCAL VIEW</p>
+            <h1 id="hero-title">把今天的<br><em>视线</em>留在这里。</h1>
+            <p class="hero-description">自动汇集《今日视线》公开发布的节目片段。打开一条，就从汕头的今天开始。</p>
+            <div class="hero-actions">
+                {% if featured_video %}
+                    <a class="button button-primary" href="{% url 'television:video' featured_video.id %}">播放最新节目 <span aria-hidden="true">→</span></a>
+                {% else %}
+                    <a class="button button-primary" href="{% url 'television:index' %}">查看节目归档 <span aria-hidden="true">→</span></a>
+                {% endif %}
+                <a class="text-link" href="/api/docs" target="_blank" rel="noopener">给客户端接入 API</a>
+            </div>
+        </div>
 
-        <h4 class="text-xl font-bold text-gray-700 capitalize dark:text-gray-300 md:text-3xl text-center">
-            ⚒️ Today TV 今日电视 🛠️
-        </h4>
-        <p class="text-center dark:text-gray-400">Tools that will help you get things done in less time.</p>
-
-        <div class="flex items-center justify-center">
-            <div class="grid gap-8 my-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                <!-- cards -->
-                <div class="w-full max-w-xs text-center">
-                    <a href="/api/docs">
-                        <div class="object-cover object-center w-full h-48 mx-auto rounded-lg bg-blue-100 border-4 border-blue-200 dark:bg-gray-900 dark:border-gray-600">
-                            <div class="py-16 px-4">
-                                <h5 class="text-lg font-bold t dark:text-white">接口文档</h5>
-                                <span class="mt-1 font-medium dark:text-gray-400">In new tab/windows</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="w-full max-w-xs text-center">
-                    <a href="/admin">
-                        <div class="object-cover object-center w-full h-48 mx-auto rounded-lg bg-blue-100 border-4 border-blue-200 dark:bg-gray-900 dark:border-gray-600">
-                            <div class="py-16 px-4">
-                                <h5 class="text-lg font-bold dark:text-white">管理后台</h5>
-                                <span class="mt-1 font-medium dark:text-gray-400">Random but Useful websites</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="w-full max-w-xs text-center">
-                    <a href="{% url 'television:index' %}">
-                        <div class="object-cover object-center w-full h-48 mx-auto rounded-lg bg-blue-100 border-4 border-blue-200 dark:bg-gray-900 dark:border-gray-600">
-                            <div class="py-16 px-4">
-                                <h5 class="text-lg font-bold dark:text-white">电视</h5>
-                                <span class="mt-1 font-medium dark:text-gray-400">Easily extract URL in Bulk</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-
-                <div class="w-full max-w-xs text-center">
-                    <a href="{% url 'account:index' %}">
-                        <div class="object-cover object-center w-full h-48 mx-auto rounded-lg bg-blue-100 border-4 border-blue-200 dark:bg-gray-900 dark:border-gray-600">
-                            <div class="py-16 px-4">
-                                <h5 class="text-lg font-bold dark:text-white">个人中心</h5>
-                                <span class="mt-1 font-medium dark:text-gray-400">Useful websites collection</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-
-                <div class="w-full max-w-xs text-center">
-                    <a href="#">
-                        <div class="object-cover object-center w-full h-48 mx-auto rounded-lg bg-gray-100 border-4 border-gray-200 dark:bg-gray-900 dark:border-gray-600">
-                            <div class="py-16 px-4">
-                                <h5 class="text-lg font-bold dark:text-white">Coming Soon</h5>
-                                <span class="mt-1 font-medium dark:text-gray-400">More tools</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-
+        <div class="hero-monitor">
+            {% if featured_video and featured_video.cover_link %}
+                <img src="{{ featured_video.cover_link }}" alt="{{ featured_video.name }} 的节目封面">
+            {% else %}
+                <div class="monitor-empty"><span>今日<br>视线</span></div>
+            {% endif %}
+            <div class="monitor-overlay"></div>
+            <div class="monitor-caption">
+                <span>最新入库</span>
+                <strong>{% if featured_video %}{{ featured_video.time|date:'Y · m · d' }}{% else %}等待节目更新{% endif %}</strong>
             </div>
         </div>
     </section>
 
+    <section class="signal-strip" aria-label="节目同步状态">
+        <div><span class="signal-label">同步状态</span><strong>{% if program %}{{ program.get_status_display }}{% else %}等待首次同步{% endif %}</strong></div>
+        <div><span class="signal-label">最新节目</span><strong>{% if program and program.latest_published_at %}{{ program.latest_published_at|date:'Y年m月d日' }}{% else %}—{% endif %}</strong></div>
+        <div><span class="signal-label">节目片段</span><strong>{% if program %}{{ program.episode_count }} 条{% else %}0 条{% endif %}</strong></div>
+        <a href="{% url 'television:index' %}">全部归档 <span aria-hidden="true">↗</span></a>
+    </section>
+
+    <section class="content-section" aria-labelledby="latest-title">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">LATEST FEED</p>
+                <h2 id="latest-title">刚刚接入的节目</h2>
+            </div>
+            <p>内容按播出日期排序；点击卡片即可播放。</p>
+        </div>
+        {% if latest_videos %}
+            <div class="episode-grid">
+                {% for video in latest_videos %}
+                    {% include 'television/components/episode_card.html' with video=video %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p class="empty-kicker">节目库正在准备中</p>
+                <h2>还没有可播放的节目。</h2>
+                <p>管理员可运行同步命令，或稍后等待每日自动同步完成。</p>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="api-callout" aria-labelledby="api-title">
+        <div>
+            <p class="eyebrow">FOR CLIENTS</p>
+            <h2 id="api-title">同一份节目库，也为你的客户端而设。</h2>
+        </div>
+        <p>用简洁的只读 API 获取节目概览、按日期筛选的片段列表和单条播放地址。</p>
+        <a class="button button-light" href="/api/docs" target="_blank" rel="noopener">查看接口文档</a>
+    </section>
 {% endblock %}

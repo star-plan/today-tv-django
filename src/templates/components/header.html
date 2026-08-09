@@ -1,69 +1,14 @@
-<nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-    <div class="container flex flex-wrap items-center justify-between mx-auto px-4 py-4 lg:px-0">
-        <a href="{% url 'index' %}" class="flex items-center text-2xl space-x-3 rtl:space-x-reverse">
-            <i class="fa-solid fa-tv text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-red-600"></i>
-            <span class="self-center font-semibold whitespace-nowrap dark:text-white">Today TV</span>
+<header class="site-header">
+    <div class="site-nav">
+        <a class="brand" href="{% url 'index' %}" aria-label="今日视线首页">
+            <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span>今日视线</span>
+            <small>Today TV</small>
         </a>
-        <button data-collapse-toggle="navbar-multi-level" type="button"
-                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                aria-controls="navbar-multi-level" aria-expanded="false">
-            <span class="sr-only">打开主菜单</span>
-            <i class="fa-solid fa-bars"></i>
-        </button>
-        <div class="hidden w-full md:block md:w-auto" id="navbar-multi-level">
-            <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                <li>
-                    <a href="{% url 'index' %}"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                        <i class="fa-solid fa-house-laptop"></i>
-                        主页
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'television:index' %}"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                        <i class="fa-solid fa-tv"></i>
-                        电视
-                    </a>
-                </li>
-                {% if user.is_authenticated %}
-                    <li>
-                        <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
-                                class="flex gap-2 items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
-                            {% if user.profile.full_name %}
-                                {{ user.profile.full_name }}
-                            {% else %}
-                                {{ user.username }}
-                            {% endif %}
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                        <div id="dropdownNavbar"
-                             class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                aria-labelledby="dropdownLargeButton">
-                                <li>
-                                    <a href="{% url 'account:index' %}"
-                                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        个人中心
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="py-1">
-                                <a href="{% url 'account:logout' %}"
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                    注销
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                {% else %}
-                    <li>
-                        <a href="{% url 'account:login' %}"
-                           class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                            登录</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+        <nav class="primary-nav" aria-label="主导航">
+            <a href="{% url 'index' %}">首页</a>
+            <a href="{% url 'television:index' %}">节目归档</a>
+            <a href="/api/docs" target="_blank" rel="noopener">开放 API</a>
+        </nav>
     </div>
-</nav>
+</header>

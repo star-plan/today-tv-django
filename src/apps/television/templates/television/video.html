@@ -1,189 +1,66 @@
 {% extends '_base.html' %}
 
-{% load static %}
-
-{% block title %}视频{% endblock %}
-
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'lib/plyr/dist/plyr.css' %}">
-{% endblock %}
+{% block title %}{{ video.name }}{% endblock %}
 
 {% block content %}
-    <div class="grid md:grid-cols-2 lg:grid-cols-12 justify-center items-start gap-8 px-4 lg:px-0" id="video-container">
-        <div class="lg:col-span-8">
-            <h1 class="py-4 text-xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-3xl">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">{{ video.program.name }}</span>
-                {{ video.name }}
-            </h1>
+    <section class="watch-layout">
+        <div class="watch-main">
+            <nav class="breadcrumb" aria-label="面包屑导航">
+                <a href="{% url 'index' %}">首页</a><span>/</span><a href="{% url 'television:index' %}">节目归档</a><span>/</span><span>{{ video.time|date:'Y-m-d' }}</span>
+            </nav>
+            <p class="eyebrow">{{ video.program.name }}</p>
+            <h1>{{ video.name }}</h1>
+            <div class="watch-meta"><span>{{ video.time|date:'Y年m月d日' }}</span><span>源站公开播放</span></div>
 
-            <div class="flex flex-wrap justify-between items-center mb-2">
-                {# Breadcrumb #}
-                <nav class="flex" aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                        <li class="inline-flex items-center">
-                            <a href="{% url 'index' %}"
-                               class="inline-flex gap-1 items-center text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                                <i class="fa-solid fa-house-chimney"></i>
-                                主页
-                            </a>
-                        </li>
-                        <li>
-                            <div class="flex items-center">
-                                <i class="fa-solid fa-chevron-right"></i>
-                                <a href="{% url 'television:index' %}"
-                                   class="ms-1 text-sm font-medium text-gray-600 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
-                                    电视
-                                </a>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="flex items-center">
-                                <i class="fa-solid fa-chevron-right"></i>
-                                <a href="{% url 'television:detail' video.program.id %}"
-                                   class="ms-1 text-sm font-medium text-gray-600 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
-                                    {{ video.program.name }}
-                                </a>
-                            </div>
-                        </li>
-                        <li aria-current="page">
-                            <div class="flex items-center">
-                                <i class="fa-solid fa-chevron-right"></i>
-                                <span class="ms-1 text-sm font-medium text-amber-700 md:ms-2 dark:text-gray-400">
-                        视频播放
-                    </span>
-                            </div>
-                        </li>
-                    </ol>
-                </nav>
-
-                <div class="flex gap-3 text-sm text-gray-500">
-                    <div class="flex gap-2 items-center">
-                        <i class="fa-brands fa-youtube"></i>
-                        999
-                    </div>
-                    <div class="flex gap-2 items-center">
-                        <i class="fa-regular fa-closed-captioning"></i>
-                        999
-                    </div>
-                    <div class="flex gap-2 items-center">
-                        <i class="fa-regular fa-calendar-days"></i>
-                        {{ video.time|date:'Y-m-d' }}
-                    </div>
-                </div>
+            <div class="player-frame">
+                {% if playback_url %}
+                    <video id="episode-player" controls playsinline preload="metadata" {% if video.cover_link %}poster="{{ video.cover_link }}"{% endif %} {% if next_video %}data-next-url="{% url 'television:video' next_video.id %}"{% endif %}>
+                        <source src="{{ playback_url }}" type="video/mp4">
+                        当前浏览器无法播放该视频。请使用下方的来源链接观看。
+                    </video>
+                {% else %}
+                    <div class="player-unavailable"><strong>当前没有可播放地址</strong><p>来源页面可能正在更新，请稍后再试。</p></div>
+                {% endif %}
             </div>
 
-            <video id="player" class="border border-gray-200 rounded-lg dark:border-gray-700"
-                   playsinline controls data-poster="{{ video.cover_link }}">
-                <source src="{{ video.video_link }}" type="video/mp4"/>
-            </video>
-            
-            {# 视频底部点赞、投币 #}
-            <div class="flex gap-8 items-center py-4 border-b">
-                <div class="flex flex-wrap gap-3 items-center">
-                    <i class="fa-solid fa-thumbs-up text-4xl text-gray-500"></i>
-                    <span class="text-md text-gray-500">点赞</span>
-                </div>
-                <div class="flex flex-wrap gap-3 items-center">
-                    <i class="fa-brands fa-bitcoin text-4xl text-gray-500"></i>
-                    <span class="text-md text-gray-500">投币</span>
-                </div>
-                <div class="flex flex-wrap gap-3 items-center">
-                    <i class="fa-solid fa-star text-4xl text-gray-500"></i>
-                    <span class="text-md text-gray-500">收藏</span>
-                </div>
-                <div class="flex flex-wrap gap-3 items-center">
-                    <i class="fa-solid fa-share text-4xl text-gray-500"></i>
-                    <span class="text-md text-gray-500">分享</span>
-                </div>
+            <div class="watch-actions">
+                {% if video.related_link %}<a class="source-link" href="{{ video.related_link }}" target="_blank" rel="noopener">前往来源页面 ↗</a>{% endif %}
+                {% if next_video %}
+                    <label class="autoplay-toggle"><input id="autoplay-next" type="checkbox"><span>自动播放下一条</span></label>
+                {% endif %}
             </div>
-
-            <p class="text-sm font-normal text-gray-500 lg:text-lg dark:text-gray-400 my-4">{% lorem %}</p>
         </div>
 
-        <div class="lg:col-span-4">
-            {# 头像啥的 #}
-            <div class="flex gap-2 justify-start items-center">
-                <img class="w-20 h-20 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                     src="{{ video.program.logo.url }}" alt="Bordered avatar">
-                <div>
-                    <a href="{% url 'television:detail' video.program.id %}"
-                       class="font-medium text-2xl text-black dark:text-blue-500 hover:underline">
-                        {{ video.program.name }}
-                    </a>
-                    <p class="text-gray-500">更新时间：{{ video.program.first_detected_update_time }}</p>
-                </div>
-            </div>
-            {# 视频选集 #}
-            <div class="bg-gray-100 mt-4 p-2 shadow-md rounded-lg overflow-hidden">
-                <div class="flex justify-between items-center border-b px-2 py-4">
-                    <div class="text-black">
-                        视频选集
-                        <span class="text-gray-500">(1/{{ same_date_videos|length }})</span>
-                    </div>
-                    <label class="inline-flex gap-2 items-center cursor-pointer">
-                        <span class="text-gray-500 dark:text-gray-300">自动连播</span>
-                        <input type="checkbox" value="" class="sr-only peer">
-                        <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                    </label>
-                </div>
-                <div>
-                    {% for item in same_date_videos %}
-                        {% if item.id == video.id %}
-                            <a href="#"
-                               class="flex flex-wrap gap-2 justify-between items-center my-2 px-4 py-2 rounded-xl text-blue-500 bg-white">
-                                <div class="flex gap-3 items-center">
-                                    <i class="fa-brands fa-youtube font-medium"></i>
-                                    <span class="text-sm">{{ item.name }}</span>
-                                </div>
-                                <span class="text-sm">{{ item.duration }}</span>
-                            </a>
-                        {% else %}
-                            <a href="{% url 'television:video' item.id %}"
-                               class="flex flex-wrap gap-2 justify-between items-center my-2 px-4 py-2 rounded-xl text-gray-600
-                                  hover:bg-white hover:text-gray-600">
-                                <div class="flex gap-3 items-center">
-                                    <i class="fa-solid fa-film"></i>
-                                    <span class="text-sm">{{ item.name }}</span>
-                                </div>
-                                <span class="text-sm">{{ item.duration }}</span>
-                            </a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-            {# 相关视频 #}
-            <div class="py-4 flex flex-col gap-2">
+        <aside class="playlist-panel" aria-label="同日节目选集">
+            <div class="playlist-heading"><div><p class="eyebrow">PLAYLIST</p><h2>同日选集</h2></div><span>{{ same_date_videos|length }} 条</span></div>
+            <div class="playlist-items">
                 {% for item in same_date_videos %}
-                    <div class="flex gap-2 items-center">
-                        <img class="rounded-lg w-40"
-                             src="{{ item.cover_link }}" alt="">
-                        <div class="flex flex-col gap-1">
-                            <p>{{ item.name }}</p>
-                            <div class="flex gap-2 items-center text-gray-500">
-                                <i class="fa-solid fa-film"></i>
-                                <span class="text-sm">今日视线</span>
-                            </div>
-                            <div class="flex gap-4 items-center text-sm text-gray-500">
-                                <div class="flex gap-2 items-center">
-                                    <i class="fa-solid fa-play"></i>
-                                    <span class="">666</span>
-                                </div>
-                                <div class="flex gap-2 items-center">
-                                    <i class="fa-regular fa-comments"></i>
-                                    <span class="">666</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <a class="playlist-item {% if item.id == video.id %}is-current{% endif %}" href="{% url 'television:video' item.id %}">
+                        <span>{% if item.id == video.id %}正在播放{% else %}{{ forloop.counter|stringformat:'02d' }}{% endif %}</span>
+                        <strong>{{ item.name }}</strong>
+                    </a>
+                {% empty %}
+                    <p class="playlist-empty">当前日期没有其他节目。</p>
                 {% endfor %}
             </div>
-        </div>
-    </div>
+        </aside>
+    </section>
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static 'lib/plyr/dist/plyr.min.mjs' %}"></script>
     <script>
-        const player = new Plyr('#player');
+        // 自动连播选项保存在当前浏览器，避免用户每次打开节目都重复设置。
+        (function () {
+            const player = document.getElementById('episode-player');
+            const toggle = document.getElementById('autoplay-next');
+            if (!player || !toggle || !player.dataset.nextUrl) return;
+            toggle.checked = window.localStorage.getItem('today-tv-autoplay') === 'true';
+            toggle.addEventListener('change', function () {
+                window.localStorage.setItem('today-tv-autoplay', String(toggle.checked));
+            });
+            player.addEventListener('ended', function () {
+                if (toggle.checked) window.location.assign(player.dataset.nextUrl);
+            });
+        }());
     </script>
 {% endblock %}

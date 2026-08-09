@@ -1,14 +1,8 @@
 from ninja import Router
 
-
-from .tv_program.apis import router as tv_program_router
-
-from .video.apis import router as video_router
+from .public import router as public_router
 
 
-router = Router(tags=['television'])
-
-
-router.add_router('tv_program', tv_program_router)
-
-router.add_router('video', video_router)
+# 对外只接入只读 API；旧的后台 CRUD 模块保留在代码库中但不再暴露给匿名客户端。
+router = Router(tags=['今日视线'])
+router.add_router('', public_router)

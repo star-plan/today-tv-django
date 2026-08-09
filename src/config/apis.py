@@ -8,6 +8,7 @@ from ninja.renderers import JSONRenderer, BaseRenderer
 from django_starter.apis import router
 from apps.account.apis import router as account_router
 from apps.demo.apis import router as demo_router
+from apps.television.apis import router as television_router
 
 
 class ORJSONRenderer(JSONRenderer):
@@ -37,3 +38,5 @@ api = NinjaAPI(
 api.add_router('django-starter', router)
 api.add_router('account', account_router)
 api.add_router('demo', demo_router)
+# 路径保持语义化，自动生成的 /api/docs 也会同步展示完整的客户端契约。
+api.add_router('today-tv', television_router)

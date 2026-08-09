@@ -58,6 +58,11 @@ class Video(ModelExt):
     video_link = models.URLField('视频链接', null=True, blank=True)
     video = models.FileField('视频文件', upload_to='tv/video/raw-videos', null=True, blank=True)
     duration = models.DurationField('视频时长', null=True, blank=True)
+    # 来源详情页的 SHA-256 摘要。详情页地址比标题更稳定，用它保证定时同步可重复执行。
+    source_key = models.CharField(
+        '来源唯一标识', max_length=64, unique=True, null=True, blank=True,
+        help_text='由采集器根据来源详情页地址生成，用于增量去重。',
+    )
 
     def __str__(self):
         return self.name
@@ -66,3 +71,5 @@ class Video(ModelExt):
         db_table = 'tv_video'
         verbose_name = '视频'
         verbose_name_plural = verbose_name
+        # 节目页和客户端 API 都以发布时间倒序读取，索引可避免归档增长后的全表排序。
+        indexes = [models.Index(fields=['program', '-time'], name='tv_video_program_time_idx')]

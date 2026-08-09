@@ -1,23 +1,8 @@
-from apps.television.models import Video
 from celery import shared_task
-from config.celery import app
+from apps.television.crawls.swatow_tv import TodayTVCrawler
 
 
-@app.task
-def add(x, y):
-    return x + y
-
-
-@shared_task
-def mul(x, y):
-    return x * y
-
-
-@shared_task
-def xsum(numbers):
-    return sum(numbers)
-
-
-@shared_task
-def count_videos():
-    return Video.objects.count()
+@shared_task(name='television.sync_today_tv')
+def sync_today_tv(pages: int = 3) -> dict:
+    """供 Celery Beat 调度的增量同步入口，返回摘要以便后台观察任务结果。"""
+    return TodayTVCrawler().sync(pages=pages)

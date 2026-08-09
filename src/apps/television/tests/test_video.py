@@ -1,74 +1,48 @@
+"""面向访客的节目页面测试，而非早期未公开的后台 CRUD 测试。"""
+
+from datetime import datetime
+
 from django.test import TestCase
-from django.urls import reverse_lazy
-from apps.television.models import Video
-from django_starter.contrib.seed import Seeder
+from django.urls import reverse
+
+from apps.television.models import TvProgram, Video
 
 
-# Create your tests here.
-class Test(TestCase):
+class VideoPageTests(TestCase):
+    """确认真实用户访问归档和播放器时能看到可播放内容。"""
+
     def setUp(self):
-        self.seeder = Seeder()
-
-        instances = []
-        for i in range(10):
-            instances.append(Video(**self.seeder.seed(Video)))
-        Video.objects.bulk_create(instances)
-
-    def test_query(self):
-        self.assertGreaterEqual(Video.objects.count(), 10)
-
-    def test_api_create(self):
-        data = self.seeder.seed(Video)
-        resp = self.client.post(
-            reverse_lazy('api:television/video/create'),
-            data=data,
-            content_type='application/json'
+        self.program = TvProgram.objects.create(
+            name='今日视线',
+            source_url='https://strtv.dahuawang.com/b/a/list_dahua.shtml',
+            status=TvProgram.Status.UPDATED,
         )
-        self.assertEqual(resp.status_code, 200)
-        self.assertIsNotNone(resp.json())
-
-        return resp.json()
-
-    def test_api_retrieve(self):
-        item = self.test_api_create()
-        resp = self.client.get(reverse_lazy('api:television/video/retrieve', kwargs={'item_id': item['data']['id']}))
-        self.assertEqual(resp.status_code, 200)
-
-    def test_api_list(self):
-        resp = self.client.get(reverse_lazy('api:television/video/list'))
-        self.assertEqual(resp.status_code, 200)
-        self.assertGreaterEqual(resp.json()['data']['count'], 10)
-
-    def test_api_update(self):
-        item = self.test_api_create()
-        data = self.seeder.seed(Video)
-        resp = self.client.put(
-            reverse_lazy('api:television/video/update', kwargs={'item_id': item['data']['id']}),
-            data=data,
-            content_type='application/json'
+        self.first_video = Video.objects.create(
+            program=self.program,
+            name='关注城市里的民生小事',
+            time=datetime(2026, 8, 8),
+            related_link='https://example.test/detail/1',
+            video_link='https://media.example.test/1.mp4',
+            source_key='1' * 64,
         )
-        self.assertEqual(resp.status_code, 200)
-        self.assertIsNotNone(resp.json())
-
-    def test_api_partial_update(self):
-        item = self.test_api_create()
-        data = self.seeder.seed(Video)
-        resp = self.client.patch(
-            reverse_lazy('api:television/video/partial_update', kwargs={'item_id': item['data']['id']}),
-            data=data,
-            content_type='application/json'
+        self.second_video = Video.objects.create(
+            program=self.program,
+            name='同日第二个节目片段',
+            time=datetime(2026, 8, 8),
+            related_link='https://example.test/detail/2',
+            video_link='https://media.example.test/2.mp4',
+            source_key='2' * 64,
         )
-        self.assertEqual(resp.status_code, 200)
-        self.assertIsNotNone(resp.json())
 
-    def test_api_destroy(self):
-        item = self.test_api_create()
-        resp = self.client.delete(
-            reverse_lazy('api:television/video/destroy', kwargs={'item_id': item['data']['id']}),
-            content_type='application/json'
-        )
-        self.assertEqual(resp.status_code, 200)
-        self.assertIsNotNone(resp.json())
+    def test_archive_can_be_opened_without_login(self):
+        """节目归档是公开内容，不能再被登录装饰器拦住。"""
+        response = self.client.get(reverse('television:index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.first_video.name)
 
-        resp = self.client.get(reverse_lazy('api:television/video/retrieve', kwargs={'item_id': item['data']['id']}))
-        self.assertEqual(resp.status_code, 404)
+    def test_player_contains_source_url_and_next_episode(self):
+        """播放器输出源站地址，并把同日下一条节目交给前端自动连播。"""
+        response = self.client.get(reverse('television:video', kwargs={'pk': self.first_video.id}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.first_video.video_link)
+        self.assertContains(response, reverse('television:video', kwargs={'pk': self.second_video.id}))
